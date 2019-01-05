@@ -1,13 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-struct node {
+typedef struct node {
   int val;
   struct node *next;
-};
+} Node;
 
-int add(struct node *head, int val) {
-  struct node *new;
-  new = malloc(sizeof(struct node));
+int add(Node *head, int val) {
+  Node *new;
+  new = malloc(sizeof(Node));
   new->val = val;
   
   new->next = head->next;
@@ -15,8 +16,8 @@ int add(struct node *head, int val) {
   return 0;
 }
 
-int deleteFirst(struct node *head) {
-  struct node *cur;
+int deleteFirst(Node *head) {
+  Node *cur;
   int result = -1;
   if (head->next != NULL) {
     cur =head->next;
@@ -27,12 +28,12 @@ int deleteFirst(struct node *head) {
   return result;
 }
 
-int delete(struct node *head, int val) {
-  struct node *cur, *prev;
+int delete(Node *head, int val) {
+  Node *cur, *prev;
   int result = -1;
 
-  for (prev = head, cur = prev->next; cur !=NULL;
-       prev = cur, cur = cur->next) {
+  for (cur = head->next, prev = head; cur !=NULL;
+       cur = cur->next, prev = prev->next) {
     if (cur->val == val) {
       prev->next = cur->next;
       result = cur->val;
@@ -43,8 +44,8 @@ int delete(struct node *head, int val) {
   return result;
 }
 
-void display(struct node *head){
-  struct node *cur;
+void display(Node *head){
+  Node *cur;
   int line = 1;
   for (cur = head->next; cur != NULL ;cur=cur->next) {
     printf("%d: %d\n",line++, cur->val);
@@ -53,7 +54,7 @@ void display(struct node *head){
 
 
 int main() {
-  struct node head = {-1, NULL};
+  Node head = {-1, NULL};
   int nums[] = {9,8,7,6,5,4,3,2,1,0};
   int i;
   for (i = 0; i < 10; i++){

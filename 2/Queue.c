@@ -10,13 +10,16 @@ typedef struct node {
 int put(Queue *tail, int val) {
   Queue *new;
   new = (Queue*)malloc(sizeof(Queue));
-  if(new==NULL){ return -1; }
-  else{
-  new->val = val;
-  new->next = tail;
-  new->prev = tail->prev;
-  tail->prev = new;
-  return 0;
+  if (new == NULL) { return -1; }
+  else {
+    Queue *prev;
+    prev = tail->prev;
+    new->val = val;
+    new->next = tail;
+    new->prev = prev;
+    prev->next = new;
+    tail->prev = new;
+    return 0;
   }
 }
 
@@ -26,21 +29,27 @@ int get(Queue *head) {
   int result = cur->val;
 
   if (result != -1) {
-    head->next = cur->next;
+    Queue *next;
+    next = cur->next;
+    next->prev = head;
+    head->next = next;
+    free(cur);
   }
   
   return result;
 }
 
 int delete(Queue *head, int val) {
-  Queue *cur, *prev;
+  Queue *next, *cur, *prev;
   int result = -1;
 
-  for (cur = head->next, prev = head; cur->val != -1;
-       cur = cur->next, prev = prev->next) {
+  for (prev = head, cur = head->next, next = (head->next)->next;
+       next != NULL;
+       prev = prev->next, cur = cur->next, next = next->next) {
     if (cur->val == val) {
-      prev->next = cur->next;
       result = cur->val;
+      next->prev = prev;
+      prev->next = next;
       free(cur);
       break;
     }
@@ -49,12 +58,12 @@ int delete(Queue *head, int val) {
   return result;
 }
 
-void display(Queue *head){
+void display(Queue *head) {
   Queue *cur;
   int line = 1;
 
-  for (cur = head->next; cur->val != -1 ;cur=cur->next, line++) {
-    printf("%d: %d\n", line, cur->val);
+  for (cur = head->next; cur->val != -1; cur = cur->next) {
+    printf("%d: %d\n", line++, cur->val);
   }
 }
 
@@ -65,22 +74,45 @@ int main() {
   head = (Queue*)malloc(sizeof(Queue));
   tail = (Queue*)malloc(sizeof(Queue));
   
-  head->val = -1;
-  tail->val = -1;
-  head->next = tail;
-  tail->next = NULL;
-  head->prev = NULL;
-  tail->prev = head;
+  if (head == NULL) { return -1; }
+  else if (tail == NULL) { return -1; }
+  else {
+    head->val = -1;
+    tail->val = -1;
+    head->next = tail;
+    tail->next = NULL;
+    head->prev = NULL;
+    tail->prev = head;
+    
+    int i = 0;
+    int k, n;
+    while (i == 0) {
+      printf("0: finish\n1: put\n2: get\n3: delete\n4: display\n");
+      scanf("%d", &k);
+      if (k == 0) { i = 1; }
+      else if (k == 1) {
+        printf("what number will you put?\n");
+        scanf("%d", &n);
+        i = put(tail, n);
+      }
+      else if (k == 2) {
+        n = get(head);
+        if (n == -1) { i = -1; }
+      }
+      else if (k == 3) {
+        printf("what number will you delete?\n");
+        scanf("%d", &n);
+        if (n != delete(head, n)) { i = -1; }
+      }
+      else if (k == 4) {
+        display(head);
+      }
+      else { i = -1; }
+    }
 
-  int nums[] = {9,8,7,6,5,4,3,2,1,0};
-  int res;
-  for (int i = 0; i < 10; i++){
-    res = put(tail, nums[i]);
+    if (i == 1) { printf("finish!\n"); }
+    else { printf("error!\n"); }
+
+    return 0;
   }
-  get(head);
-  delete(head, 9);
-  delete(head, 5);
-  delete(head, 10);
-  display(head);
-  return res;
 }
