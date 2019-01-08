@@ -94,20 +94,22 @@ int main() {
         printf("what number will you put?\n");
         scanf("%d", &n);
         i = put(tail, n);
+        if (!i) { printf("%d was put.\n", n); }
       }
       else if (k == 2) {
-        n = get(head);
-        if (n == -1) { i = -1; }
+        if (get(head) == -1) { i = -1; }
       }
       else if (k == 3) {
         printf("what number will you delete?\n");
         scanf("%d", &n);
-        if (n != delete(head, n)) { i = -1; }
+        if (n == delete(head, n)) { printf("%d was deleted.\n", n); }
+        else { printf("%d was not found.\n", n); }
       }
       else if (k == 4) {
         display(head);
       }
       else { i = -1; }
+      printf("\n");
     }
 
     if (i == 1) { printf("finish!\n"); }
