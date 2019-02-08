@@ -1,6 +1,6 @@
     .text
 main:
-    addi $sp, $sp, -4 # 
+    addi $sp, $sp, -4
     sw $ra, 0($sp)
 
     li $t0, 0
@@ -20,7 +20,7 @@ loop:
     syscall
 
     lw $ra, 0($sp)
-    addi $sp, $sp, 4 #
+    addi $sp, $sp, 4
     jr $ra
 
 read1bit:
