@@ -3,7 +3,7 @@
 #include<time.h>
 
 int monte_carlo(int n, double* pi){
-    if(n <= 0){ return 0; }
+    if(n <= 0){ return -1; }
     else{
         int k = 0;
         double x,y;
@@ -14,7 +14,7 @@ int monte_carlo(int n, double* pi){
             if(x*x + y*y < 1){ k++; }
         }
         *pi = 4 * (double)k / (double)n;
-        return 1;
+        return 0;
     }
 }
 
@@ -25,7 +25,7 @@ int main(){
     int n;
     scanf("%d", &n);
     int result = monte_carlo(n, &pi);
-    if(result){printf("pi = %f\n", pi);}
+    if(result==0){printf("pi = %f\n", pi);}
     else{printf("error\n");}
     return 0;
 }

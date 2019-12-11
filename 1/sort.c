@@ -22,16 +22,17 @@ int main(){
 	printf("ary_size?\n");
 	int ary_size;
 	scanf("%d", &ary_size);
-	printf("ary?\n(");
-	int* ary;
+	
+	int ary[ary_size];
+	printf("ary?\n");
 	for(int i = 0; i < ary_size; i++){
 		scanf("%d", ary+i);
 	}
-	printf(")\n");
+
 	sort_int_array(ary, ary_size);
-	printf("(");
 	for(int i = 0; i < ary_size; i++){
-		printf(" %d", *(ary+i));
+		printf("%d ", *(ary+i));
 	}
-	printf(")\n");
+	printf("\n");
+	return 0;
 }
