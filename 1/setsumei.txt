@@ -1,0 +1,29 @@
+モンテカルロ法について
+打つ点の数を指定できるようにした
+理想はx=乱数、y=乱数、x^2+y^2<RandMax^2としたいところだが（割り算による切り捨てによる評価の誤差をなくすため）、
+オーバーフローしてしまうので単位円について考えるよう規格化した。
+スライドを参考にして実行ごとに結果が変わるようにした
+以下実行結果
+
+C:\Users\Owner\Documents\ComputerSystems\1>a.exe
+pi = 0.000000
+how many samples?
+999999
+pi = 3.142271
+C:\Users\Owner\Documents\ComputerSystems\1>a.exe
+pi = 0.000000
+how many samples?
+999999
+pi = 3.142435
+
+
+ソートについて
+バブルソートを用いた。
+以下実行結果
+
+C:\Users\Owner\Documents\ComputerSystems\1>a.exe
+ary_size?
+5
+ary?
+1 4 3 5 2
+1 2 3 4 5
