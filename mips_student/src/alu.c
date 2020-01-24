@@ -78,7 +78,21 @@ void alu_msb(Signal *ops, Signal a, Signal b, Signal less, Signal carry_in, Sign
 
 void alu32(Signal *ops, Word a, Word b, Word *s, Signal *zero)
 {
-    /* Exercise 6-1 */
+    int i;
+
+    Signal carry_in = ops[2];
+    Signal carry_out;
+    for (i = 0; i < 31; ++i) {
+        alu(ops, (&a)->bit[i], (&b)->bit[i], 0, carry_in, &(s->bit[i]), &carry_out);
+        carry_in = carry_out;
+    }
+    alu_msb(ops, (&a)->bit[31], (&b)->bit[31], 0, ops[2], &(s->bit[31]), &carry_out);
+
+    alu(ops, (&a)->bit[0], (&b)->bit[0], s->bit[31], ops[2], &(s->bit[0]), &carry_out);
+
+    Signal inner;
+    orn_gate(s, 32, &inner);
+    not_gate(inner, zero);
 }
 
 void test_alu()

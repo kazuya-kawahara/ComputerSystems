@@ -20,7 +20,7 @@ void rca(Word in1, Word in2, Signal carry_in, Word *out1, Signal *carry_out)
     Signal tmp_in = carry_in;
     Signal tmp_out;
     for (i = 0; i < 32; ++i) {
-        full_adder(in1->bit[i], in2->bit[i], tmp_in, out->bit[i], &tmp_out);
+        full_adder((&in1)->bit[i], (&in2)->bit[i], tmp_in, out1->bit[i], &tmp_out);
         tmp_in = tmp_out
     }
     *carry_out = tmp_out;
