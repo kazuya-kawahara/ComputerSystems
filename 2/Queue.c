@@ -3,8 +3,8 @@
 
 typedef struct node {
   int val;
-  struct node *next;
   struct node *prev;
+  struct node *next;
 } Queue;
 
 int put(Queue *tail, int val) {
@@ -84,39 +84,40 @@ int main() {
     tail->prev = head;
     tail->next = NULL;
     
-    int i = 0;
-    while (i != -1) {
+    int errorcheck = 0;
+    while (errorcheck != -1) {
+      errorcheck = 0;
       printf("0: finish\n1: put\n2: get\n3: delete\n4: display\n");
-      int k;
-      scanf("%d", &k);
-      if (k == 0) { break; }
-      else if (k == 1) {
+      int operation;
+      scanf("%d", &operation);
+      if (operation == 0) { break; }
+      else if (operation == 1) {
         printf("what number will you put?\n");
         int n;
         scanf("%d", &n);
-        i = put(tail, n);
-        if (i == 0) { printf("%d was put.\n", n); }
+        errorcheck = put(tail, n);
+        if (errorcheck == 0) { printf("%d was put.\n", n); }
       }
-      else if (k == 2) {
-        i = get(head);
+      else if (operation == 2) {
+        errorcheck = get(head);
       }
-      else if (k == 3) {
+      else if (operation == 3) {
         printf("what number will you delete?\n");
         int n;
         scanf("%d", &n);
         if (n == delete(head, n)) { printf("%d was deleted.\n", n); }
         else { printf("%d was not found.\n", n); }
       }
-      else if (k == 4) {
+      else if (operation == 4) {
         display(head);
       }
-      else { i = -1; }
+      else { errorcheck = -1; }
       printf("\n");
     }
 
-    if (i == 0) { printf("finish!\n"); }
+    if (errorcheck == 0) { printf("finish!\n"); }
     else { printf("error!\n"); }
 
-    return i;
+    return errorcheck;
   }
 }
